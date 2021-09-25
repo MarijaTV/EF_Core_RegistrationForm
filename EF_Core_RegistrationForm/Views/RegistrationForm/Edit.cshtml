@@ -1,0 +1,65 @@
+﻿@model EF_Core_RegistrationForm.Dtos.RegistrationFormDTO
+
+<h1>Registracijos Forma</h1>
+
+<p>
+    @*<a asp-action="Add">Create New</a>*@
+</p>
+@using (Html.BeginForm("Edit", "RegistrationForm", FormMethod.Post))
+{
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Registracijos požymiai</th>
+                    <th scope="col">Reikšmė</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @for (int i = 0; i < @Model.QuestionAnswers.Count; i++)
+                {
+
+                    <tr>
+
+                        <td>@Model.QuestionAnswers[i].Question.Text</td>
+
+                        <td>
+                            <div class="disabled">
+                                @Html.DropDownListFor(a => @Model.QuestionAnswers[i].AnswerId, new SelectList(@Model.QuestionAnswers[i].Question.Answers, "Id", "Text"), new { @class = "form-control dropdown", @id = "dropdown", @disabled = "disabled" })
+                            </div>
+                        </td>
+                        @Html.HiddenFor(a => a.RegistrationId)
+                        @Html.HiddenFor(a => Model.QuestionAnswers[i].QuestionId)
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <input type="button" value="Koreguoti požymius" class="btn btn-primary" id="1" onclick="EnableButtons()" />
+            <input type="submit" value="Saugoti požymius" class="btn btn-primary" id="2" disabled />
+            <input type="reset" value="Atšukti pakeitimus" class="btn btn-primary" id="3" disabled onclick="this.blur();" />
+        </div>
+
+
+    </div>
+}
+
+
+
+<script>
+    var button1 = document.getElementById("1");
+    var button2 = document.getElementById("2");
+    var button3 = document.getElementById("3");
+    var dropdownElements = Array.from(document.getElementsByClassName("dropdown"));
+
+    button1.addEventListener("click", function () {
+        button1.toggleAttribute("disabled");
+        button2.toggleAttribute("disabled");
+        button3.toggleAttribute("disabled");
+        dropdownElements.forEach((element) => {
+            element.toggleAttribute("disabled");
+        });
+    });
+</script>

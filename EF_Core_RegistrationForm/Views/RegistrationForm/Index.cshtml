@@ -1,0 +1,37 @@
+﻿@model EF_Core_RegistrationForm.Dtos.RegistrationFormDTO
+
+<h1>Registracijos Forma</h1>
+
+<p>
+    <a asp-action="Edit">Detaliai</a>
+</p>
+
+<div class="container">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Registracijos požymiai</th>
+                <th scope="col">Reikšmė</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.QuestionAnswers)
+            {
+                <tr>
+
+                    <td>@question.Question.Text</td>
+                    @Html.HiddenFor(a => a.RegistrationId)
+
+                    <td>
+                        <div class="disabled">
+                            @*@Html.DropDownListFor(a => question.AnswerId, new SelectList(question.Question.Answers), "Id", "AnswerText"))*@
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
